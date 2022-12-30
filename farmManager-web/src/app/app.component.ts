@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Animal } from './models/animal';
 import { AnimalService } from './services/animal.service';
 
@@ -25,6 +26,18 @@ export class AppComponent implements OnInit {
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
+      }
+    )
+  }
+
+  public onAddAnimal(addForm: NgForm): void {
+    document.getElementById('add-animal-form')!.click();
+    this.animalService.addAnimal(addForm.value).subscribe(
+      (response: Animal) => {
+        this.getAnimals();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message)
       }
     )
   }
