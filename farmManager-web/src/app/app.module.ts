@@ -6,10 +6,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AnimalService } from './services/animal.service';
 import { FormsModule } from '@angular/forms';
+import { FoodComponent } from './food/food.component';
+import { AnimalComponent } from './animal/animal.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    FoodComponent,
+    AnimalComponent
   ],
   imports: [
     BrowserModule,
