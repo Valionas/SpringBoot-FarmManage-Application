@@ -68,6 +68,26 @@ export class AppComponent implements OnInit {
     )
   }
 
+  public searchAnimals(key: string): void {
+    const results: Animal[] = [];
+    if (this.animals) {
+      for (const animal of this.animals) {
+        if (animal.name.toLowerCase().indexOf(key.toLowerCase()) !== -1 ||
+          animal.category.toLowerCase().indexOf(key.toLowerCase()) !== -1 ||
+          animal.animalType.toLowerCase().indexOf(key.toLowerCase()) !== -1 ||
+          animal.foodType.toLowerCase().indexOf(key.toLowerCase()) !== -1
+        ) {
+          results.push(animal);
+        }
+      }
+      this.animals = results
+      if (results.length === 0 || !key) {
+        this.getAnimals()
+      }
+    }
+
+  }
+
   public onOpenModal(animal: Animal | undefined, mode: string): void {
     const container = document.getElementById('main-container');
     const button = document.createElement('button');
