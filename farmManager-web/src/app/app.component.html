@@ -7,7 +7,7 @@
   <div class="collapse navbar-collapse" id="navbarColor02">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" (click)="onOpenModal(null, 'add')" href="#">Add Animal <span
+        <a class="nav-link" (click)="onOpenModal(undefined, 'add')" href="#">Add Animal <span
             class="sr-only">(current)</span></a>
       </li>
     </ul>
@@ -113,35 +113,40 @@
           <form #editForm="ngForm">
             <div class=" form-group">
               <label for="name">Name</label>
-              <input type="text" ngModel name="name" class="form-control" id="name" placeholder="Name" required>
+              <input type="text" ngModel="{{editAnimal?.name}}" name="name" class="form-control" id="name"
+                placeholder="Name" required>
             </div>
             <div class="form-group">
+              <input type="hidden" ngModel="{{editAnimal?.id}}" name="id" class="form-control" id="id">
               <label for="category">Category</label>
-              <input type="text" ngModel name="category" class="form-control" id="category" placeholder="Category"
-                required>
+              <input type="text" ngModel="{{editAnimal?.category}}" name="category" class="form-control" id="category"
+                placeholder="Category" required>
             </div>
+
             <div class="form-group">
               <label for="animalType">Animal Type</label>
-              <input type="text" ngModel name="animalType" class="form-control" id="animalType"
-                placeholder="Animal Type" required>
+              <input type="text" ngModel="{{editAnimal?.animalType}}" name="animalType" class="form-control"
+                id="animalType" placeholder="Animal Type" required>
             </div>
             <div class="form-group">
               <label for="foodType">Food Type</label>
-              <input type="text" ngModel name="foodType" class="form-control" id="foodType" placeholder="Food Type"
-                required>
+              <input type="text" ngModel="{{editAnimal?.foodType}}" name="foodType" class="form-control" id="foodType"
+                placeholder="Food Type" required>
             </div>
             <div class="form-group">
               <label for="age">Age</label>
-              <input type="number" ngModel name="age" class="form-control" id="age" placeholder="Age" required>
+              <input type="number" ngModel="{{editAnimal?.age}}" name="age" class="form-control" id="age"
+                placeholder="Age" required>
             </div>
             <div class="form-group">
               <label for="imageUrl">Image URL</label>
-              <input type="text" ngModel name="imageUrl" class="form-control" id="imageUrl" placeholder="Image URL"
-                required>
+              <input type="text" ngModel="{{editAnimal?.imageUrl}}" name="imageUrl" class="form-control" id="imageUrl"
+                placeholder="Image URL" required>
             </div>
             <div class="modal-footer">
-              <button type="button" id="add-animal-form" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary">Save changes</button>
+              <button type="button" id="edit-animal-form" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button (click)="onUpdateAnimal(editForm.value)" type="submit" class="btn btn-primary">Save
+                changes</button>
             </div>
           </form>
         </div>
@@ -162,10 +167,10 @@
           </button>
         </div>
         <div class="modal-body">
-          <p>Are you sure you want to delete animal ?</p>
+          <p>Are you sure you want to delete animal {{deleteAnimal?.name}}?</p>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-            <button class="btn btn-danger" data-dismiss="modal">Yes</button>
+            <button (click)="onDeleteAnimal(deleteAnimal!.id)" class="btn btn-danger" data-dismiss="modal">Yes</button>
           </div>
         </div>
       </div>

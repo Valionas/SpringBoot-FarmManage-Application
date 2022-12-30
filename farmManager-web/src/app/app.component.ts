@@ -35,6 +35,20 @@ export class AppComponent implements OnInit {
     this.animalService.addAnimal(addForm.value).subscribe(
       (response: Animal) => {
         this.getAnimals();
+        addForm.reset();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+        addForm.reset();
+      }
+    )
+  }
+
+  public onUpdateAnimal(animal: Animal): void {
+    document.getElementById('edit-animal-form')!.click();
+    this.animalService.updateAnimal(animal).subscribe(
+      (response: Animal) => {
+        this.getAnimals();
       },
       (error: HttpErrorResponse) => {
         alert(error.message)
@@ -42,7 +56,19 @@ export class AppComponent implements OnInit {
     )
   }
 
-  public onOpenModal(animal: Animal | null, mode: string): void {
+  public onDeleteAnimal(animalId: number): void {
+    document.getElementById('edit-animal-form')!.click();
+    this.animalService.deleteAnimal(animalId).subscribe(
+      (response: void) => {
+        this.getAnimals();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message)
+      }
+    )
+  }
+
+  public onOpenModal(animal: Animal | undefined, mode: string): void {
     const container = document.getElementById('main-container');
     const button = document.createElement('button');
     button.type = 'button';
@@ -53,9 +79,11 @@ export class AppComponent implements OnInit {
         button.setAttribute('data-target', '#addAnimalModal');
         break;
       case "edit":
+        this.editAnimal = animal;
         button.setAttribute('data-target', '#updateAnimalModal');
         break;
       case "delete":
+        this.deleteAnimal = animal;
         button.setAttribute('data-target', '#deleteAnimalModal');
         break;
       default:
