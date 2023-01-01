@@ -8,12 +8,16 @@ import { AnimalService } from './services/animal.service';
 import { FormsModule } from '@angular/forms';
 import { FoodComponent } from './food/food.component';
 import { AnimalComponent } from './animal/animal.component';
+import { LoginUserComponent } from './login-user/login-user.component';
+import { RegisterUserComponent } from './register-user/register-user.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FoodComponent,
-    AnimalComponent
+    AnimalComponent,
+    LoginUserComponent,
+    RegisterUserComponent
   ],
   imports: [
     BrowserModule,

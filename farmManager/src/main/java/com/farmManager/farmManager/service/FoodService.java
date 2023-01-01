@@ -24,7 +24,7 @@ public class FoodService {
     public Food updateFood(Food food){ return foodRepo.save(food) ;}
 
     public Food findFoodById(Long id){
-        return foodRepo.findFoodById(id).orElseThrow(() -> new FoodNotFoundException(("Food was not found with id: "+ id)));
+        return foodRepo.findFoodById(id).orElseThrow(() -> new FoodNotFoundException("Food was not found with id: "+ id));
     }
 
     public void deleteFood(Long id){
