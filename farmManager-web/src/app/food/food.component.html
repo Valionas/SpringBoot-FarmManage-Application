@@ -25,7 +25,7 @@
         <button type="button" class="btn btn-primary" (click)="onOpenModal(undefined, 'add')">Add Food</button>
     </div>
     <div class="row">
-        <div *ngFor="let food of foods" class="col-md-6 col-xl-3">
+        <div *ngFor="let food of displayedFoods" class="col-md-6 col-xl-3">
             <div class="card m-b-30">
                 <div class="card-body row">
                     <div class="col-6">
@@ -154,7 +154,14 @@
     </div>
 </div>
 
-<!-- Notification for foods -->
+<!-- Notification for displayed foods -->
+<div *ngIf="displayedFoods?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
+    <div class="alert alert-info" role="alert">
+        <h4 class="alert-heading">Your farm has no such food!</h4>
+        <p>Try searching a different one!</p>
+    </div>
+</div>
+
 <div *ngIf="foods?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
     <div class="alert alert-info" role="alert">
         <h4 class="alert-heading">Your farm has no food!</h4>

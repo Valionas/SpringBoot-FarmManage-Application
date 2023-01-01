@@ -12,6 +12,7 @@ import { FoodService } from '../services/food.service';
 export class FoodComponent implements OnInit {
 
   public foods: Food[] | undefined;
+  public displayedFoods: Food[] | undefined;
   public editFood: Food | undefined;
   public deleteFood: Food | undefined;
 
@@ -25,6 +26,7 @@ export class FoodComponent implements OnInit {
     this.foodService.getFoods().subscribe(
       (response: Food[]) => {
         this.foods = response;
+        this.displayedFoods = response;
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -78,9 +80,9 @@ export class FoodComponent implements OnInit {
           results.push(food);
         }
       }
-      this.foods = results
-      if (results.length === 0 || !key) {
-        this.getFoods()
+      this.displayedFoods = results
+      if (!key) {
+        this.displayedFoods = this.foods;
       }
     }
   }

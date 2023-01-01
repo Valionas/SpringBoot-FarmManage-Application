@@ -11,6 +11,7 @@ import { AnimalService } from '../services/animal.service';
 })
 export class AnimalComponent implements OnInit {
   public animals: Animal[] | undefined;
+  public displayedAnimals: Animal[] | undefined;
   public editAnimal: Animal | undefined;
   public deleteAnimal: Animal | undefined;
   constructor(private animalService: AnimalService) { }
@@ -23,6 +24,7 @@ export class AnimalComponent implements OnInit {
     this.animalService.getAnimals().subscribe(
       (response: Animal[]) => {
         this.animals = response;
+        this.displayedAnimals = response;
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -80,9 +82,9 @@ export class AnimalComponent implements OnInit {
           results.push(animal);
         }
       }
-      this.animals = results
-      if (results.length === 0 || !key) {
-        this.getAnimals()
+      this.displayedAnimals = results
+      if (!key) {
+        this.displayedAnimals = this.animals;
       }
     }
 
