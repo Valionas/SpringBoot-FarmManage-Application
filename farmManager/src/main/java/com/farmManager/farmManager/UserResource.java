@@ -25,7 +25,7 @@ public class UserResource {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody User user){
+    public ResponseEntity<User> loginUser(@RequestBody User user){
         List<User> users = userService.findAllUsers();
         User foundUser = null;
         for (User searchedUser : users) {
@@ -39,24 +39,26 @@ public class UserResource {
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             boolean isPasswordCorrect = passwordEncoder.matches(user.getPassword(), foundUser.getPassword());
             if(isPasswordCorrect){
-                return new ResponseEntity<>(true, HttpStatus.OK);
+                foundUser.setPassword("******");
+                return new ResponseEntity<>(foundUser, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
             }
         } else {
-            return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
 
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody User user){
+    public ResponseEntity<User> registerUser(@RequestBody User user){
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String userPassword = user.getPassword();
         String hashedPassword = passwordEncoder.encode(userPassword);
         user.setPassword(hashedPassword);
         userService.addUser(user);
-        return new ResponseEntity<>(HttpStatus.OK);
+        user.setPassword("******");
+        return new ResponseEntity<>(user,HttpStatus.OK);
 
     }
 }

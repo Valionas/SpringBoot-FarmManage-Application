@@ -1,8 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Food } from '../models/food';
 import { FoodService } from '../services/food.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-food',
@@ -16,7 +18,7 @@ export class FoodComponent implements OnInit {
   public editFood: Food | undefined;
   public deleteFood: Food | undefined;
 
-  constructor(private foodService: FoodService) { }
+  constructor(private router: Router, private foodService: FoodService, private userService: UserService) { }
 
   ngOnInit(): void {
     this.getFoods();
@@ -110,5 +112,10 @@ export class FoodComponent implements OnInit {
     }
     container?.appendChild(button);
     button.click();
+  }
+
+  public logout() {
+    this.userService.logout();
+    this.router.navigate(['/login']);
   }
 }

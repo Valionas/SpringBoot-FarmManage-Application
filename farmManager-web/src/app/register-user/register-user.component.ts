@@ -1,6 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import { User } from '../models/user';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -10,7 +12,7 @@ import { UserService } from '../services/user.service';
 })
 export class RegisterUserComponent implements OnInit {
 
-  constructor(private userService: UserService) { }
+  constructor(private router: Router, private userService: UserService) { }
 
   ngOnInit(): void {
   }
@@ -19,7 +21,10 @@ export class RegisterUserComponent implements OnInit {
     const registerData = { ...addForm.value };
     if (registerData.password === registerData.confirmPassword) {
       this.userService.registerUser(addForm.value).subscribe(
-        (response: void) => {
+        (response: User) => {
+          this.userService.isLoggedIn = true;
+          localStorage.setItem('user', response.username);
+          this.router.navigate(['/home']);
           addForm.reset();
         },
         (error: HttpErrorResponse) => {

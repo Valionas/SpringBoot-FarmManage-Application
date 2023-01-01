@@ -8,15 +8,22 @@ import { environment } from 'src/environments/environment';
     providedIn: 'root'
 })
 export class UserService {
+    isLoggedIn = localStorage.getItem("user") != null ? true : false;
+
     private apiServerUrl = environment.apiBaseUrl;
 
     constructor(private http: HttpClient) { }
 
-    public registerUser(user: User): Observable<void> {
-        return this.http.post<void>(`${this.apiServerUrl}/user/register`, user);
+    public registerUser(user: User): Observable<User> {
+        return this.http.post<User>(`${this.apiServerUrl}/user/register`, user,);
     }
-    public loginUser(user: User): Observable<boolean> {
-        return this.http.post<boolean>(`${this.apiServerUrl}/user/login`, user);
+    public loginUser(user: User): Observable<User> {
+        return this.http.post<User>(`${this.apiServerUrl}/user/login`, user);
+    }
+
+    public logout() {
+        this.isLoggedIn = false;
+        localStorage.clear();
     }
 
 }

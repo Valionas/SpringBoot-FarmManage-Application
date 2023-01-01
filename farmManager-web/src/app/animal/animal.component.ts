@@ -1,8 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Animal } from '../models/animal';
 import { AnimalService } from '../services/animal.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-animal',
@@ -14,7 +16,8 @@ export class AnimalComponent implements OnInit {
   public displayedAnimals: Animal[] | undefined;
   public editAnimal: Animal | undefined;
   public deleteAnimal: Animal | undefined;
-  constructor(private animalService: AnimalService) { }
+
+  constructor(private router: Router, private animalService: AnimalService, private userService: UserService) { }
 
   ngOnInit(): void {
     this.getAnimals();
@@ -113,5 +116,10 @@ export class AnimalComponent implements OnInit {
     }
     container?.appendChild(button);
     button.click();
+  }
+
+  public logout() {
+    this.userService.logout();
+    this.router.navigate(['/login']);
   }
 }
