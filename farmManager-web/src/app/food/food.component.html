@@ -10,10 +10,6 @@
                 <a class="nav-link" href="/">Animals<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" (click)="onOpenModal(undefined, 'add')" href="#">Add Animal <span
-                        class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" href="/food">Foods<span class="sr-only">(current)</span></a>
             </li>
         </ul>
@@ -23,3 +19,145 @@
         </form>
     </div>
 </nav>
+
+<div class="container" id="main-container">
+    <div class="col-md-12 text-center mb-5">
+        <button type="button" class="btn btn-primary" (click)="onOpenModal(undefined, 'add')">Add Food</button>
+    </div>
+    <div class="row">
+        <div *ngFor="let food of foods" class="col-md-6 col-xl-3">
+            <div class="card m-b-30">
+                <div class="card-body row">
+                    <div class="col-6">
+                        <a href=""><img src="{{food?.imageUrl}}" alt="" class="img-fluid rounded-circle w-80"></a>
+                    </div>
+                    <div class="col-6 card-title align-self-center mb-0">
+                        <h5>{{food?.name}}</h5>
+                        <p class="m-0"><b>Quantity:</b> {{food?.quantity}}</p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="float-right btn-group btn-group-sm">
+                        <a (click)="onOpenModal(food, 'edit')" class="btn btn-primary tooltips" data-placement="top"
+                            data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
+                        <a (click)="onOpenModal(food, 'delete')" class="btn btn-secondary tooltips" data-placement="top"
+                            data-original-title="Delete"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Food Modal -->
+    <div class="modal fade" id="addFoodModal" tabindex="-1" role="dialog" aria-labelledby="addFoodModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addFoodModalLabel">Add Food</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form #addForm="ngForm" (ngSubmit)="onAddFood(addForm)">
+                        <div class=" form-group">
+                            <label for="name">Name</label>
+                            <input type="text" ngModel name="name" class="form-control" id="name" placeholder="Name"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="quantity">Quantity</label>
+                            <input type="number" ngModel name="quantity" class="form-control" id="quantity"
+                                placeholder="Quantity" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="imageUrl">Image URL</label>
+                            <input type="text" ngModel name="imageUrl" class="form-control" id="imageUrl"
+                                placeholder="Image URL" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="add-food-form" class="btn btn-secondary"
+                                data-dismiss="modal">Close</button>
+                            <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary">Save
+                                changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Food Modal -->
+    <div class="modal fade" id="updateFoodModal" tabindex="-1" role="dialog" aria-labelledby="foodEditModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateFoodModalLabel">Edit Food</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form #editForm="ngForm">
+                        <div class=" form-group">
+                            <label for="name">Name</label>
+                            <input type="text" ngModel="{{editFood?.name}}" name="name" class="form-control" id="name"
+                                placeholder="Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" ngModel="{{editFood?.id}}" name="id" class="form-control" id="id">
+                            <label for="quantity">Quantity</label>
+                            <input type="number" ngModel="{{editFood?.quantity}}" name="quantity" class="form-control"
+                                id="quantity" placeholder="Quantity" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="imageUrl">Image URL</label>
+                            <input type="text" ngModel="{{editFood?.imageUrl}}" name="imageUrl" class="form-control"
+                                id="imageUrl" placeholder="Image URL" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="edit-food-form" class="btn btn-secondary"
+                                data-dismiss="modal">Close</button>
+                            <button (click)="onUpdateFood(editForm.value)" type="submit" class="btn btn-primary">Save
+                                changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Delete Food Modal -->
+    <div class="modal fade" id="deleteFoodModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModelLabel">Delete Food</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete food {{deleteFood?.name}} from the storehouse?</p>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                        <button (click)="onDeleteFood(deleteFood!.id)" class="btn btn-danger"
+                            data-dismiss="modal">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Notification for foods -->
+<div *ngIf="foods?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
+    <div class="alert alert-info" role="alert">
+        <h4 class="alert-heading">Your farm has no food!</h4>
+        <p>Try to fill the storehouse as soon as possible!</p>
+    </div>
+</div>
