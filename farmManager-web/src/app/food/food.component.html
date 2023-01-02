@@ -31,7 +31,7 @@
             <div class="card m-b-30">
                 <div class="card-body row">
                     <div class="col-6">
-                        <a href=""><img src="{{food?.imageUrl}}" alt="" class="img-fluid rounded-circle w-80"></a>
+                        <a href=""><img src="{{food?.imageUrl}}" alt="" class="img-fluid h-100"></a>
                     </div>
                     <div class="col-6 card-title align-self-center mb-0">
                         <h5>{{food?.name}}</h5>
@@ -40,8 +40,8 @@
                 </div>
                 <div class="card-body">
                     <div class="float-right btn-group btn-group-sm">
-                        <a (click)="onOpenModal(food, 'edit')" class="btn btn-primary tooltips" data-placement="top"
-                            data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
+                        <a (click)="onOpenModal(food, 'edit')" class="btn btn-primary tooltips mr-1"
+                            data-placement="top" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
                         <a (click)="onOpenModal(food, 'delete')" class="btn btn-secondary tooltips" data-placement="top"
                             data-original-title="Delete"><i class="fa fa-times"></i></a>
                     </div>

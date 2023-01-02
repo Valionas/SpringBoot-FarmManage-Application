@@ -5,5 +5,7 @@ export interface Animal {
     animalType: string;
     foodType: string;
     age: number;
+    hunger: number;
+    thirst: number;
     imageUrl: string;
 }

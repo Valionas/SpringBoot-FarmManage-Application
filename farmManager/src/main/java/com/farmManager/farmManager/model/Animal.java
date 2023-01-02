@@ -16,17 +16,23 @@ public class Animal implements Serializable {
     private String animalType;
     private String foodType;
     private Integer age;
+
+    private Integer hunger;
+
+    private Integer thirst;
+
     private String imageUrl;
 
     public Animal() {}
 
-    public Animal(String name, String category, String animalType, String foodType, Integer age, String imageUrl){
+    public Animal(String name, String category, String animalType, String foodType, Integer age,Integer hunger, String imageUrl){
         this.name = name;
         this.category = category;
         this.animalType = animalType;
         this.foodType = foodType;
         this.age = age;
         this.imageUrl = imageUrl;
+        this.hunger = hunger;
     }
 
     public Long getId(){
@@ -68,6 +74,14 @@ public class Animal implements Serializable {
     public Integer getAge() { return age ;}
 
     public void setAge(Integer age) { this.age = age;}
+
+    public Integer getHunger() { return hunger ;}
+
+    public void setHunger(Integer hunger) { this.hunger = hunger;}
+
+    public Integer getThirst() { return thirst ;}
+
+    public void setThirst(Integer thirst) { this.thirst = thirst;}
 
     public String getImageUrl() { return imageUrl;}
 

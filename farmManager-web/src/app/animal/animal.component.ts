@@ -3,7 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Animal } from '../models/animal';
+import { Food } from '../models/food';
 import { AnimalService } from '../services/animal.service';
+import { FoodService } from '../services/food.service';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -13,14 +15,16 @@ import { UserService } from '../services/user.service';
 })
 export class AnimalComponent implements OnInit {
   public animals: Animal[] | undefined;
+  public foods: Food[] | undefined;
   public displayedAnimals: Animal[] | undefined;
   public editAnimal: Animal | undefined;
   public deleteAnimal: Animal | undefined;
 
-  constructor(private router: Router, private animalService: AnimalService, private userService: UserService) { }
+  constructor(private router: Router, private animalService: AnimalService, private userService: UserService, private foodService: FoodService) { }
 
   ngOnInit(): void {
     this.getAnimals();
+    this.getFoods();
   }
 
   public getAnimals(): void {
@@ -35,8 +39,21 @@ export class AnimalComponent implements OnInit {
     )
   }
 
+  public getFoods(): void {
+    this.foodService.getFoods().subscribe(
+      (response: Food[]) => {
+        this.foods = response;
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    )
+  }
+
   public onAddAnimal(addForm: NgForm): void {
     document.getElementById('add-animal-form')!.click();
+    addForm.value.hunger = 0;
+    addForm.value.thirst = 0;
     this.animalService.addAnimal(addForm.value).subscribe(
       (response: Animal) => {
         this.getAnimals();
@@ -111,11 +128,65 @@ export class AnimalComponent implements OnInit {
         this.deleteAnimal = animal;
         button.setAttribute('data-target', '#deleteAnimalModal');
         break;
+      case "giveFood":
+        if (animal!.hunger < 3) {
+          this.editAnimal = animal;
+          button.setAttribute('data-target', '#feedAnimalModal');
+        } else {
+          alert(`${animal!.name} is already full on food`)
+        }
+
+        break;
       default:
         break;
     }
     container?.appendChild(button);
     button.click();
+  }
+
+  public onWaterAnimal(animal: Animal) {
+    if (animal.thirst < 5) {
+      animal.thirst += 1;
+      this.animalService.updateAnimal(animal).subscribe(
+        (response: Animal) => {
+          this.getAnimals();
+        },
+        (error: HttpErrorResponse) => {
+          alert(error.message)
+        }
+      )
+    } else {
+      alert(`${animal.name} is full on water.`)
+    }
+  }
+
+  public onFeedAnimal(animal: Animal, foodFormValue: any) {
+    document.getElementById('feed-animal-form')!.click();
+    if (animal.hunger < 3) {
+      animal.hunger += 1;
+      let updatedFood = this.foods?.find(food => food.id === Number(foodFormValue.food));
+      updatedFood!.quantity -= 1;
+      console.log(updatedFood);
+      this.animalService.updateAnimal(animal).subscribe(
+        (response: Animal) => {
+          this.getAnimals();
+        },
+        (error: HttpErrorResponse) => {
+          alert(error.message)
+        }
+      );
+
+      this.foodService.updateFood(updatedFood!).subscribe(
+        (response: Food) => {
+          this.getFoods();
+        },
+        (error: HttpErrorResponse) => {
+          alert(error.message)
+        }
+      );
+    } else {
+      alert(`${animal.name} is full on food.`)
+    }
   }
 
   public logout() {

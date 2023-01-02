@@ -16,8 +16,7 @@
         <form class="form-inline my-2 my-lg-0">
             <input type="search" (ngModelChange)="searchAnimals(key.value)" #key="ngModel" ngModel name="key"
                 id="searchName" class="form-control mr-sm-2" placeholder="Search animals..." required>
-            <button type="button" id="add-animal-form" class="btn btn-secondary" data-dismiss="modal"
-                (click)="logout()">Logout</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="logout()">Logout</button>
         </form>
     </div>
 </nav>
@@ -30,9 +29,9 @@
             <div class="card m-b-30">
                 <div class="card-body row">
                     <div class="col-6">
-                        <a href=""><img src="{{animal?.imageUrl}}" alt="" class="img-fluid rounded-circle w-80"></a>
+                        <a href=""><img src="{{animal?.imageUrl}}" alt="" class="img-fluid h-100"></a>
                     </div>
-                    <div class="col-6 card-title align-self-center mb-0">
+                    <div class=" col-6 card-title align-self-center mb-0">
                         <h5>{{animal?.name}}</h5>
                         <p class="m-0"><b>Type:</b> {{animal?.animalType}}</p>
                     </div>
@@ -41,11 +40,20 @@
                     <li class="list-group-item"><b>Category:</b> {{animal?.category}}</li>
                     <li class="list-group-item"><b>Food Type:</b> {{animal?.foodType}}</li>
                     <li class="list-group-item"><b>Age:</b> {{animal?.age}}</li>
+                    <li class="list-group-item"><b>Thirst:</b> {{animal?.thirst}} / 5</li>
+                    <li class="list-group-item"><b>Hunger:</b> {{animal?.hunger}} / 3</li>
                 </ul>
                 <div class="card-body">
+                    <div class="float-left btn-group btn-group-sm">
+                        <a (click)="onWaterAnimal(animal)" class="btn btn-primary tooltips mr-1" data-placement="top"
+                            data-original-title="Water"><i class="fa fa-tint" aria-hidden="true"></i></a>
+                        <a (click)="onOpenModal(animal, 'giveFood')" class="btn btn-primary tooltips"
+                            data-placement="top" data-original-title="Delete"><i class="fa fa-apple"
+                                aria-hidden="true"></i></a>
+                    </div>
                     <div class="float-right btn-group btn-group-sm">
-                        <a (click)="onOpenModal(animal, 'edit')" class="btn btn-primary tooltips" data-placement="top"
-                            data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
+                        <a (click)="onOpenModal(animal, 'edit')" class="btn btn-primary tooltips mr-1"
+                            data-placement="top" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
                         <a (click)="onOpenModal(animal, 'delete')" class="btn btn-secondary tooltips"
                             data-placement="top" data-original-title="Delete"><i class="fa fa-times"></i></a>
                     </div>
@@ -129,6 +137,8 @@
                         </div>
                         <div class="form-group">
                             <input type="hidden" ngModel="{{editAnimal?.id}}" name="id" class="form-control" id="id">
+                            <input type="hidden" ngModel="{{editAnimal?.hunger}}" name="hunger" class="form-control"
+                                id="hunger">
                             <label for="category">Category</label>
                             <input type="text" ngModel="{{editAnimal?.category}}" name="category" class="form-control"
                                 id="category" placeholder="Category" required>
@@ -184,6 +194,39 @@
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
                         <button (click)="onDeleteAnimal(deleteAnimal!.id)" class="btn btn-danger"
                             data-dismiss="modal">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="feedAnimalModal" tabindex="-1" role="dialog" aria-labelledby="feedModelLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="feedModelLabel">Feed Animal</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Choose from the following food:?</p>
+                    <form #foodForm="ngForm">
+                        <div class=" form-group">
+                            <label for="name">Foods:</label>
+                            <select class="form-select" aria-label="Available Foods:" ngModel name="food">
+                                <option *ngFor="let food of foods" [value]="food.id">
+                                    {{food.name}}
+                                </option>
+                            </select>
+                        </div>
+                    </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            id="feed-animal-form">Cancel</button>
+                        <button (click)="onFeedAnimal(editAnimal!, foodForm.value)" type="submit"
+                            class="btn btn-primary">Feed</button>
                     </div>
                 </div>
             </div>
