@@ -45,6 +45,8 @@
                 </ul>
                 <div class="card-body">
                     <div class="float-left btn-group btn-group-sm">
+                        <a (click)="onTrainAnimal(animal)" class="btn btn-primary tooltips mr-1" data-placement="top"
+                            data-original-title="Water"><i class="fa fa-flag-checkered" aria-hidden="true"></i></a>
                         <a (click)="onWaterAnimal(animal)" class="btn btn-primary tooltips mr-1" data-placement="top"
                             data-original-title="Water"><i class="fa fa-tint" aria-hidden="true"></i></a>
                         <a (click)="onOpenModal(animal, 'giveFood')" class="btn btn-primary tooltips"

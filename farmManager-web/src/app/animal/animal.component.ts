@@ -158,6 +158,25 @@ export class AnimalComponent implements OnInit {
     } else {
       alert(`${animal.name} is full on water.`)
     }
+  };
+
+  public onTrainAnimal(animal: Animal) {
+    if (animal.thirst < 2 || animal.hunger < 1) {
+      alert("Your animal needs refreshments!");
+    } else {
+      animal.thirst -= 2;
+      animal.hunger -= 1;
+      this.animalService.updateAnimal(animal).subscribe(
+        (response: Animal) => {
+          this.getAnimals();
+        },
+        (error: HttpErrorResponse) => {
+          alert(error.message)
+        }
+      );
+      alert(`${animal.name} was successfully trained!`);
+    }
+
   }
 
   public onFeedAnimal(animal: Animal, foodFormValue: any) {
