@@ -141,6 +141,8 @@
                             <input type="hidden" ngModel="{{editAnimal?.id}}" name="id" class="form-control" id="id">
                             <input type="hidden" ngModel="{{editAnimal?.hunger}}" name="hunger" class="form-control"
                                 id="hunger">
+                            <input type="hidden" ngModel="{{editAnimal?.thirst}}" name="thirst" class="form-control"
+                                id="thirst">
                             <label for="category">Category</label>
                             <input type="text" ngModel="{{editAnimal?.category}}" name="category" class="form-control"
                                 id="category" placeholder="Category" required>
@@ -202,6 +204,7 @@
         </div>
     </div>
 
+    <!-- Feed Animal Modal -->
     <div class="modal fade" id="feedAnimalModal" tabindex="-1" role="dialog" aria-labelledby="feedModelLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -218,7 +221,8 @@
                         <div class=" form-group">
                             <label for="name">Foods:</label>
                             <select class="form-select" aria-label="Available Foods:" ngModel name="food">
-                                <option *ngFor="let food of foods" [value]="food.id">
+                                <option *ngFor="let food of foods" [value]="food.id"
+                                    [attr.disabled]="food.quantity < 1 ? '': null">
                                     {{food.name}}
                                 </option>
                             </select>
